@@ -4,7 +4,7 @@ Project: Insmart_v2
 File Created: Wednesday, 21st December 2022 12:03:30 pm
 Author: Bart van Netburg (b.van.netburg@insmart.nl)
 -----
-Last Modified: Wednesday, 21st December 2022 9:04:18 pm
+Last Modified: Wednesday, 21st December 2022 10:57:03 pm
 Modified By: Bart van Netburg (b.van.netburg@insmart.nl>)
 -----
 Copyright 2022 - 2022 Insmart B.V., Insmart
@@ -27,6 +27,7 @@ class network_manager:
     """
     @brief
     Initialize network manager. Builds a neuron network to the given specifications
+    If you leave lair_neuron_count or lair_count as None then it will try to load a network from a file
     @param int lair_neuron_cound
     The amound of neurons per lair
     @param int lair_count
@@ -36,7 +37,11 @@ class network_manager:
     @param int end_lair_neuron_count
     The amound of neurons in the last lair. If None, defaults to lair_neuron_count
     """
-    def __init__(self, lair_neuron_count : int, lair_count : int, start_lair_neuron_count: int = None, end_lair_neuron_count : int = None) -> None:
+    def __init__(self, lair_neuron_count : int = None, lair_count : int = None, start_lair_neuron_count: int = None, end_lair_neuron_count : int = None, save_file_name : str = "NNSave.json") -> None:
+        if(lair_neuron_count == None or lair_count == None):
+            print("loading from file")
+            self.load_from_json(save_file_name)
+            return
         # first lair
         if start_lair_neuron_count == None:
             start_lair_neuron_count = lair_neuron_count
@@ -211,7 +216,14 @@ class network_manager:
             for neuron in lair:
                 neuron.printName()
 
-    def save_to_jason(self, file_name : str = "NNSave.json"):
+    """
+    @brief
+    Saves the network to a Json file
+    @details
+    The Json is split into lairs, which contain neurons which contain 
+    their properties and have a list with in_axons
+    """
+    def save_to_json(self, file_name : str = "NNSave.json") -> None:
         json_save = {}
         for l in range(len(self.lairs)):
             lair = {}
@@ -225,14 +237,52 @@ class network_manager:
                 for axon in self.lairs[l][n].in_axons:
                     in_axons[axon.input.name[-2:]] = axon.weight
                 neuron["in_axons"] = in_axons
-
+                if l == 0:
+                    neuron["output"] = self.lairs[l][n].output
                 lair["N"+str(n+1)] = neuron
             json_save["L"+str(l+1)] = lair
     
         json_file = json.dumps(json_save)
 
-        f = open(file_name, "w")
-        f.write(json_file)
-        f.close()
+        file = open(file_name, "w")
+        file.write(json_file)
+        file.close()
+
+    """
+    @breif
+    use json file to create neural network.
+    Continue where you left of!... I hope XD
+    @details
+    BE AWARE! this overwrites the self.lairs property. 
+    If used wronly can result in los of your network
+    @param str file_name
+    The name of the json file to load
+    """
+    def load_from_json(self, file_name : str = "NNSave.json") -> None:
+        self.lairs = []
+        file = open(file_name, "r")
+        json_save = json.loads(file.read())
+        file.close()
+
+        for lkey, lair in json_save.items():
+            lair_list : list = []
+
+            if lkey == "L1":
+                for nkey, neuron in lair.items():
+                    lair_list.append(sn.start_neuron(neuron["output"], neuron["name"]))
+                self.lairs.append(lair_list)
+            else:
+                for nkey, neuron in lair.items():
+                    axon_list : list = []
+                    prev_lair = self.lairs[int(lkey[-1:])-2]
+                    for nkey, weight in neuron["in_axons"].items():
+                        axon = ax.axon(prev_lair[int(nkey[-1:])-1])
+                        axon.weight = weight
+                        axon_list.append(axon) 
+                    tmp_neuron : neu.neuron = neu.neuron(axon_list, neuron["b"])
+                    tmp_neuron.last_z = neuron["last_z"]
+                    tmp_neuron.last_output = neuron["last_output"]
+                    lair_list.append(tmp_neuron)
+                self.lairs.append(lair_list)
 
     
