@@ -4,7 +4,7 @@ Project: Insmart_v2
 File Created: Wednesday, 21st December 2022 12:03:30 pm
 Author: Bart van Netburg (b.van.netburg@insmart.nl)
 -----
-Last Modified: Wednesday, 21st December 2022 6:28:24 pm
+Last Modified: Wednesday, 21st December 2022 9:04:18 pm
 Modified By: Bart van Netburg (b.van.netburg@insmart.nl>)
 -----
 Copyright 2022 - 2022 Insmart B.V., Insmart
@@ -13,6 +13,7 @@ Copyright 2022 - 2022 Insmart B.V., Insmart
 import neuron as neu
 import start_neuron as sn
 import axon as ax
+import json
 
 class network_manager:
 
@@ -209,3 +210,29 @@ class network_manager:
         for lair in self.lairs:
             for neuron in lair:
                 neuron.printName()
+
+    def save_to_jason(self, file_name : str = "NNSave.json"):
+        json_save = {}
+        for l in range(len(self.lairs)):
+            lair = {}
+            for n in range(len(self.lairs[l])):
+                neuron = {}
+                neuron["b"] = self.lairs[l][n].b
+                neuron["name"] = self.lairs[l][n].name
+                neuron["last_z"] = self.lairs[l][n].last_z
+                neuron["last_output"] = self.lairs[l][n].last_output
+                in_axons = {}
+                for axon in self.lairs[l][n].in_axons:
+                    in_axons[axon.input.name[-2:]] = axon.weight
+                neuron["in_axons"] = in_axons
+
+                lair["N"+str(n+1)] = neuron
+            json_save["L"+str(l+1)] = lair
+    
+        json_file = json.dumps(json_save)
+
+        f = open(file_name, "w")
+        f.write(json_file)
+        f.close()
+
+    

@@ -4,7 +4,7 @@ Project: Insmart_v2
 File Created: Wednesday, 14th December 2022 12:21:31 pm
 Author: Bart van Netburg (b.van.netburg@insmart.nl)
 -----
-Last Modified: Wednesday, 21st December 2022 6:22:56 pm
+Last Modified: Wednesday, 21st December 2022 8:57:49 pm
 Modified By: Bart van Netburg (b.van.netburg@insmart.nl>)
 -----
 Copyright 2022 - 2022 Insmart B.V., Insmart
@@ -104,7 +104,7 @@ class neuron:
 
         #update last output and last_z and return it
         self.last_z = sum
-        self.last_output = self.sigmoid(sum)
+        self.last_output = float(self.sigmoid(sum))
         # print(self.name+": "+str(self.last_output))
         return self.last_output
 
