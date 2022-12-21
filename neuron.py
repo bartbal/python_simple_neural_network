@@ -1,3 +1,15 @@
+'''
+File: neuron.py
+Project: Insmart_v2
+File Created: Wednesday, 14th December 2022 12:21:31 pm
+Author: Bart van Netburg (b.van.netburg@insmart.nl)
+-----
+Last Modified: Wednesday, 21st December 2022 11:28:46 am
+Modified By: Bart van Netburg (b.van.netburg@insmart.nl>)
+-----
+Copyright 2022 - 2022 Insmart B.V., Insmart
+'''
+
 import sys
 import numpy as np
 import math
@@ -40,7 +52,7 @@ class neuron:
             try:
                 self.name = "neuron with bias "+str(bias)
             except:
-                self.name = "noNameneuron"
+                self.name = "noNameNeuron"
 
         # set outputs for inputs
         for axon in in_axons:
@@ -122,9 +134,9 @@ class neuron:
         #calculate bias
         self.update_bias(zeta, delta)
         # go to next lair
-        for out_axon in self.out_axons:
+        for in_axon in self.in_axons:
             # don't have to give it expected_out becouse that is only for the last lair
-            out_axon.learn(zeta, None)
+            in_axon.learn(zeta, None)
 
     """
     @brief
@@ -147,8 +159,8 @@ class neuron:
     def get_delta(self, expected_out : float = None) -> float:
         if self.learned:
             return self.last_delta
-        if expected_out == None:
-            # this is the final neuron
+        if expected_out != None:
+            # this is the last neuron of the network
             self.last_delta = self.sigmoidDif(self.last_z)*(expected_out-self.get_last_output())
             return self.last_delta
         else:

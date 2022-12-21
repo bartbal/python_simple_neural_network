@@ -1,3 +1,15 @@
+'''
+File: axon.py
+Project: Insmart_v2
+File Created: Wednesday, 14th December 2022 12:21:31 pm
+Author: Bart van Netburg (b.van.netburg@insmart.nl)
+-----
+Last Modified: Wednesday, 21st December 2022 11:03:51 am
+Modified By: Bart van Netburg (b.van.netburg@insmart.nl>)
+-----
+Copyright 2022 - 2022 Insmart B.V., Insmart
+'''
+
 import sys
 import numpy as np
 from numpy import random
@@ -82,6 +94,14 @@ class axon:
     def input_print(self):
         self.input.print()
         self.input.weights_print()
+
+    """
+    @brief
+    learn the input of this axon
+    """
+    def learn(self, zeta : float = 0.1, expected_out : float = None):
+        self.input.learn(zeta, expected_out)
+
 
     """
     @brief 
