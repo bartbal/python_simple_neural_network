@@ -4,7 +4,7 @@ Project: Insmart_v2
 File Created: Wednesday, 14th December 2022 12:21:31 pm
 Author: Bart van Netburg (b.van.netburg@insmart.nl)
 -----
-Last Modified: Wednesday, 21st December 2022 11:49:57 am
+Last Modified: Wednesday, 21st December 2022 6:22:56 pm
 Modified By: Bart van Netburg (b.van.netburg@insmart.nl>)
 -----
 Copyright 2022 - 2022 Insmart B.V., Insmart
@@ -13,6 +13,7 @@ Copyright 2022 - 2022 Insmart B.V., Insmart
 import sys
 import numpy as np
 import math
+from numpy import random
 import axon
 from typing import List, Set, Dict, Tuple
 
@@ -40,8 +41,11 @@ class neuron:
     # to track if this neuron already learned
     learned : bool = False
 
-    def __init__(self, bias : float, in_axons : list, name : str = ""):
-        self.b = float(bias)
+    def __init__(self, in_axons : list, bias : float = None, name : str = ""):
+        if(bias == None):
+            self.b = random.rand()
+        else:
+            self.b = float(bias)
 
         self.in_axons = in_axons
         
@@ -72,11 +76,12 @@ class neuron:
     
     """
     @brief
-    print the name with th last output value
+    print the name with th last output value and bias
     """
     def print(self):
         self.printName() 
-        print(self.last_output)
+        print("last result: "+str(self.last_output))
+        print("bias: "+str(self.b))
 
     """
     @brief
@@ -184,10 +189,6 @@ class neuron:
     def update_bias(self, zeta : float, delta : float) -> None:
         #bias = zeta * delta
         self.b = self.b+zeta*delta
-
-        # Wrong:
-        #weight + zeta * input_delta*output_delta = new_weight
-        # self.bias = self.bias + zeta * self.get_delta(expected_out) 
 
     """
     @brief

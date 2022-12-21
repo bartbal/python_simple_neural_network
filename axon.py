@@ -4,7 +4,7 @@ Project: Insmart_v2
 File Created: Wednesday, 14th December 2022 12:21:31 pm
 Author: Bart van Netburg (b.van.netburg@insmart.nl)
 -----
-Last Modified: Wednesday, 21st December 2022 11:03:51 am
+Last Modified: Wednesday, 21st December 2022 6:23:18 pm
 Modified By: Bart van Netburg (b.van.netburg@insmart.nl>)
 -----
 Copyright 2022 - 2022 Insmart B.V., Insmart
@@ -112,5 +112,3 @@ class axon:
     def update_weight(self, zeta : float, delta : float) -> None:
         #weight zeta * delta * self.input.get_last_output()
         self.weight = self.weight + zeta * delta * self.input.get_last_output()
-        # wrong:
-        # self.weight = self.weight + zeta * self.input.get_delta() * self.output.get_delta() 
