@@ -4,7 +4,7 @@ Project: Insmart_v2
 File Created: Wednesday, 14th December 2022 12:21:31 pm
 Author: Bart van Netburg (b.van.netburg@insmart.nl)
 -----
-Last Modified: Wednesday, 21st December 2022 11:24:00 am
+Last Modified: Wednesday, 21st December 2022 11:58:14 am
 Modified By: Bart van Netburg (b.van.netburg@insmart.nl>)
 -----
 Copyright 2022 - 2022 Insmart B.V., Insmart
@@ -71,8 +71,8 @@ print(result_L3N1)
 print(result_L3N2)
 print("---")
 
-learnGoal1 = 0.5
-learnGoal2 = 0.2
+learnGoal1 = 0.8
+learnGoal2 = 0.1
 
 # L3N1.learn(1, learnGoal1)
 # L3N2.learn(1, learnGoal2)
@@ -92,6 +92,12 @@ while (result_L3N1 != learnGoal1) and (result_L3N2 != learnGoal2) and check_for_
     # print(count)
     # print(result_L3N1)
     # print(result_L3N2)
+    if(count % 5000 == 0):
+        print()
+        print(result_L3N1)
+        print(result_L3N2)
+        print("\n")
+    print("Learning... Cycles: "+str(count), end='\r')
     count += 1
 print(result_L3N1)
 print(result_L3N2)
