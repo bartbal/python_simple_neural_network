@@ -1,13 +1,13 @@
 '''
 File: network_manager.py
-Project: Insmart_v2
+Project: Simple neural network
 File Created: Wednesday, 21st December 2022 12:03:30 pm
-Author: Bart van Netburg (b.van.netburg@insmart.nl)
+Author: Bart van Netburg
 -----
-Last Modified: Wednesday, 21st December 2022 10:57:03 pm
-Modified By: Bart van Netburg (b.van.netburg@insmart.nl>)
+Last Modified: Sunday, 25th December 2022 1:43:31 pm
+Modified By: Bart van Netburg
 -----
-Copyright 2022 - 2022 Insmart B.V., Insmart
+Copyright 2022 - 2022 Bart van Netburg
 '''
 
 import neuron as neu

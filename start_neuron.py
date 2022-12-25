@@ -1,13 +1,13 @@
 '''
 File: start_neuron.py
-Project: Insmart_v2
+Project: Simple neural network
 File Created: Wednesday, 14th December 2022 12:21:31 pm
-Author: Bart van Netburg (b.van.netburg@insmart.nl)
+Author: Bart van Netburg
 -----
-Last Modified: Wednesday, 21st December 2022 11:17:44 am
-Modified By: Bart van Netburg (b.van.netburg@insmart.nl>)
+Last Modified: Sunday, 25th December 2022 1:44:16 pm
+Modified By: Bart van Netburg
 -----
-Copyright 2022 - 2022 Insmart B.V., Insmart
+Copyright 2022 - 2022 Bart van Netburg
 '''
 
 import sys
